@@ -8,10 +8,11 @@ namespace File_Manager
     {
         public static List<DirectoryInfo> DirectoryList = new List<DirectoryInfo>();
         public static List<FileInfo> FileList = new List<FileInfo>();
+        
 
-        public static void CreateList(string currentDirectory)
+        public static void CreateList(string directory)
         {
-            DirectoryInfo path = new DirectoryInfo(currentDirectory);
+            DirectoryInfo path = new DirectoryInfo(directory);
 
             DirectoryList = (from d in path.GetDirectories()
                 where !d.Name.StartsWith('.')

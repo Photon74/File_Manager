@@ -15,37 +15,41 @@ namespace File_Manager
         public static void TryParseComand(string str)
         {
             string[] words = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if ((words.Length == 0) || (words.Length == 1 && (words[0] != "help" || words[0] != "exit")))
+            if (words.Length == 0)
             {
-                throw new InvalidOperationException("Неверная команда (используйте 'help')!");
+                throw new InvalidOperationException("Команда не может быть пустой (используйте 'help')!");
             }
             if (words.Length >= 1)
             {
+                words[0] = words[0].ToLower();
                 Comand = words[0] switch
                 {
-                    "ls" => Comands.ls,
-                    "cp" => Comands.cp,
-                    "rm" => Comands.rm,
-                    "inf" => Comands.inf,
-                    "help" => Comands.help,
-                    "exit" => Comands.exit,
+                    "ls" => Comands.Ls,
+                    "cp" => Comands.Cp,
+                    "rm" => Comands.Rm,
+                    "inf" => Comands.Inf,
+                    "help" => Comands.Help,
+                    "exit" => Comands.Exit,
                     _ => throw new InvalidOperationException(
                         $"Команда {words[0]} не поддерживается (используйте 'help')!"),
                 };
             }
             if (words.Length >= 2)
             {
+                words[1] = words[1].ToLower();
                 if (File.Exists(words[1]) || Directory.Exists(words[1]))
                 {
                     SourcePath = words[1];
                 }
                 else
                 {
-                    throw new FileNotFoundException("Такой папки или файла не существует!\n(первый  параметр)");
+                    throw new FileNotFoundException($"Такой папки или файла не существует!\n{words[1]} - " +
+                                                    $"проверьте написание!");
                 }
             }
             if(words.Length>=3)
             {
+                words[2] = words[2].ToLower();
                 if(words[2].Contains(s))
                 {
                     DestPath = words[2];

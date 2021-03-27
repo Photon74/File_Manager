@@ -1,30 +1,67 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Text.Json;
 
 namespace File_Manager
 {
-    public class Actions
+    public static class Actions
     {
-        public void List()      // разбиение списка файлов и директорий на страницы и его вывод
+        //CurrentDirectory = Environment.ExpandEnvironmentVariables(Properties.Resources.currentDirectory);
+        
+        public static string CurrentDirectory { get; private set; }
+
+        public static void Start()
         {
-            
+            string json = File.ReadAllText("options.json");
+            CurrentDirectory = JsonSerializer.Deserialize<string>(json);
+            ConsoleWindow.Create();
+        }
+        public static void List()      // разбиение списка файлов и директорий на страницы и его вывод
+        {
+            CurrentDirectory = Parser.SourcePath;
+            FileTree.CreateList(Parser.SourcePath);
         }
 
-        public void Delete()    // удаление файла или каталога
+        public static void Delete()    // удаление файла или каталога
         {
-            
+            if (Path.HasExtension(Parser.SourcePath))
+            {
+                File.Delete(Parser.SourcePath);
+            }
+            else
+            {
+                Directory.Delete(Parser.SourcePath, true);
+            }
         }
 
-        public void Copy()      // копирование файла или каталога
+        public static void Copy()      // копирование файла или каталога
         {
-            
+            if (Path.HasExtension(Parser.SourcePath))
+            {
+                File.Copy(Parser.SourcePath, Parser.DestPath);
+            }
+            else
+            {
+                Process proc = new Process
+                {
+                    StartInfo =
+                    {
+                        UseShellExecute = true,
+                        FileName = @"C:\WINDOWS\system32\xcopy.exe",
+                        Arguments = $"{Parser.SourcePath} {Parser.DestPath} /E /I"
+                    }
+                };
+                proc.Start();
+            }
         }
 
-        public string Info()    // вывод информации о файле или каталоге
+        public static string Info()    // вывод информации о файле или каталоге
         {
             return "";
         }
 
-        public string Help()    // вывод справочной информации
+        public static string Help()    // вывод справочной информации
         {
             return $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
  Копирование каталога:              cp C:\Source D:\Target\n
@@ -34,9 +71,11 @@ namespace File_Manager
  Вывод информации:                  inf C:\source.txt";
         }
 
-        public void Exit()      // выход из программы
+        public static void Exit()      // выход из программы
         {
-            // todo Save state to file
+            string json = JsonSerializer.Serialize(CurrentDirectory);
+            File.WriteAllText("options.json", json);
+            
             Environment.Exit(0);
         }
     }
