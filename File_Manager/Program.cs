@@ -6,7 +6,9 @@ namespace File_Manager
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ConsoleWindow.Create();
+            
+            Console.ReadLine();
         }
     }
 }

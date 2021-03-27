@@ -10,7 +10,7 @@ namespace File_Manager
         public static Comands Comand { get; private set; }
         public static string SourcePath { get; private set; }
         public static string DestPath { get; private set; }
-        private static string s = @":\";
+        private static readonly string s = @":\";
 
         public static void TryParseComand(string str)
         {
@@ -29,7 +29,8 @@ namespace File_Manager
                     "inf" => Comands.inf,
                     "help" => Comands.help,
                     "exit" => Comands.exit,
-                    _ => throw new InvalidOperationException($"Команда {words[0]} не поддерживается (используйте 'help')!"),
+                    _ => throw new InvalidOperationException(
+                        $"Команда {words[0]} не поддерживается (используйте 'help')!"),
                 };
             }
             if (words.Length >= 2)

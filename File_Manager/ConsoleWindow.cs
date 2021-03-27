@@ -4,12 +4,17 @@ using System.Text;
 
 namespace File_Manager
 {
-    class ConsoleWindow
+    static class ConsoleWindow
     {
-
+        public static string InfoText { get; set; }
+        
         public static void Create()
         {
+            Console.WindowWidth = 100;
+            Console.WindowHeight = 45;
+            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             Console.Clear();
+            
 
             Console.SetCursorPosition(4, 1);
             Console.Write("Directories List" + "                  " + "Files List");
