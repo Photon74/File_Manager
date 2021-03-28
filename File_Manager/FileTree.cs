@@ -21,7 +21,7 @@ namespace File_Manager
 
             FileList = (from f in path.GetFiles("*.*")
                 where !f.Name.StartsWith('.')
-                where f.Name.Length < 20
+                where f.Name.Length < 30
                 select f).ToList();
         }
 

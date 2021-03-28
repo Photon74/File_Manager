@@ -8,11 +8,8 @@ namespace File_Manager
     {
         public static string InfoText { get; set; }
         
-        public static void Create()
+        public static void Draw()
         {
-            Console.WindowWidth = 100;
-            Console.WindowHeight = 45;
-            Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
             Console.Clear();
 
             Console.SetCursorPosition(4, 1);
@@ -44,9 +41,11 @@ namespace File_Manager
                 Console.Write(FileTree.FileList[i].Name);
             }
 
-            Actions.Info();
             Console.SetCursorPosition(3, Console.WindowHeight - 8);
             Console.Write(InfoText);
+
+            Console.SetCursorPosition(1, Console.BufferHeight - 1);
+            Console.Write(Actions.CurrentDirectory + " >");
         }
     }
 }

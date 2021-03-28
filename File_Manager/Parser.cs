@@ -12,7 +12,7 @@ namespace File_Manager
         public static string DestPath { get; private set; }
         private static readonly string s = @":\";
 
-        public static void TryParseComand(string str)
+        public static void TryParseComandLine(string str)
         {
             string[] words = str.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
             if (words.Length == 0)
@@ -43,8 +43,7 @@ namespace File_Manager
                 }
                 else
                 {
-                    throw new FileNotFoundException($"Такой папки или файла не существует!\n{words[1]} - " +
-                                                    $"проверьте написание!");
+                    throw new FileNotFoundException($"Такой папки или файла не существует!\n   {words[1]} - проверьте написание!");
                 }
             }
             if(words.Length>=3)

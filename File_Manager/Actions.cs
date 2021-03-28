@@ -9,17 +9,32 @@ namespace File_Manager
     {
         public static string CurrentDirectory { get; private set; }
 
+
         public static void Start()
         {
             string json = File.ReadAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json");
             CurrentDirectory = JsonSerializer.Deserialize<string>(json);
             FileTree.CreateList(CurrentDirectory);
-            ConsoleWindow.Create();
+            ConsoleWindow.InfoText = DefaultInfo();
+            ConsoleWindow.Draw();
         }
-        public static void List()      // разбиение списка файлов и директорий на страницы и его вывод
+        public static void CreateLists()      // разбиение списка файлов и директорий на страницы и его вывод
         {
-            CurrentDirectory = Parser.SourcePath;
-            FileTree.CreateList(Parser.SourcePath);
+            if (Path.HasExtension(Parser.SourcePath))
+            {
+                CurrentDirectory = Path.GetDirectoryName(Parser.SourcePath);
+            }
+            else if (CurrentDirectory == Parser.SourcePath &&
+                (Parser.Comand == Comands.Rm || Parser.Comand == Comands.Cp))
+            {
+                CurrentDirectory = Directory.GetParent(CurrentDirectory).FullName;
+            }
+            else
+            {
+                CurrentDirectory = Parser.SourcePath;
+            }
+                
+            FileTree.CreateList(CurrentDirectory);
         }
 
         public static void Delete()    // удаление файла или каталога
@@ -55,19 +70,25 @@ namespace File_Manager
             }
         }
 
-        public static void Info()    // вывод информации о файле или каталоге
+        public static string DefaultInfo()
         {
-            ConsoleWindow.InfoText = $"Текущая директория \"{CurrentDirectory}\" содержит {Directory.GetDirectories(CurrentDirectory).Length} поддиректорий и {Directory.GetFiles(CurrentDirectory).Length} файлов (скрытые не показаны)";
+            return $@"Текущая директория {CurrentDirectory}
+   содержит {Directory.GetDirectories(CurrentDirectory).Length} поддиректорий и {Directory.GetFiles(CurrentDirectory).Length} файлов
+   (скрытые не показаны)";
+        }
+        public static string Info()    // вывод информации о файле или каталоге
+        {
+            return "";
         }
 
-        public static void Help()    // вывод справочной информации
+        public static string Help()    // вывод справочной информации
         {
-            ConsoleWindow.InfoText = $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
- Копирование каталога:              cp C:\Source D:\Target\n
- Копирование файла:                 cp C:\source.txt D:\target.txt
- Удаление каталога рекурсивно:      rm C:\Source
- Удаление файла:                    rm C:\source.txt
- Вывод информации:                  inf C:\source.txt";
+            return $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
+   Копирование каталога:              cp C:\Source D:\Target\n
+   Копирование файла:                 cp C:\source.txt D:\target.txt
+   Удаление каталога рекурсивно:      rm C:\Source
+   Удаление файла:                    rm C:\source.txt
+   Вывод информации:                  inf C:\source.txt";
         }
 
         public static void Exit()      // выход из программы
