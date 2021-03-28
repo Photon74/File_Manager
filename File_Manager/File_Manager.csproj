@@ -6,11 +6,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <EmbeddedResource Remove="Options.resx" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Remove="Options.Designer.cs" />
+      <EmbeddedResource Update="Options.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Options.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
 </Project>

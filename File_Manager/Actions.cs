@@ -7,14 +7,13 @@ namespace File_Manager
 {
     public static class Actions
     {
-        //CurrentDirectory = Environment.ExpandEnvironmentVariables(Properties.Resources.currentDirectory);
-        
         public static string CurrentDirectory { get; private set; }
 
         public static void Start()
         {
-            string json = File.ReadAllText("options.json");
+            string json = File.ReadAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json");
             CurrentDirectory = JsonSerializer.Deserialize<string>(json);
+            FileTree.CreateList(CurrentDirectory);
             ConsoleWindow.Create();
         }
         public static void List()      // разбиение списка файлов и директорий на страницы и его вывод
@@ -56,14 +55,14 @@ namespace File_Manager
             }
         }
 
-        public static string Info()    // вывод информации о файле или каталоге
+        public static void Info()    // вывод информации о файле или каталоге
         {
-            return "";
+            ConsoleWindow.InfoText = $"Текущая директория \"{CurrentDirectory}\" содержит {Directory.GetDirectories(CurrentDirectory).Length} поддиректорий и {Directory.GetFiles(CurrentDirectory).Length} файлов (скрытые не показаны)";
         }
 
-        public static string Help()    // вывод справочной информации
+        public static void Help()    // вывод справочной информации
         {
-            return $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
+            ConsoleWindow.InfoText = $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
  Копирование каталога:              cp C:\Source D:\Target\n
  Копирование файла:                 cp C:\source.txt D:\target.txt
  Удаление каталога рекурсивно:      rm C:\Source
@@ -74,7 +73,7 @@ namespace File_Manager
         public static void Exit()      // выход из программы
         {
             string json = JsonSerializer.Serialize(CurrentDirectory);
-            File.WriteAllText("options.json", json);
+            File.WriteAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json", json);
             
             Environment.Exit(0);
         }
