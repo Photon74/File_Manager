@@ -78,7 +78,20 @@ namespace File_Manager
         }
         public static string Info()    // вывод информации о файле или каталоге
         {
-            return "";
+            if (Path.HasExtension(Parser.SourcePath))
+            {
+                FileInfo info = new FileInfo(Parser.SourcePath);
+                return $@"Файл {info.Name}.{info.Extension}
+   Время создания: {info.CreationTime}
+   Размер: {Converter(info.Length)} ";
+            }
+            else
+            {
+                DirectoryInfo info = new DirectoryInfo(Parser.SourcePath);
+                return $@"Директория: {info.Name}
+   Время создания: {info.CreationTime}
+   Содержит: {info.GetDirectories().Length} директорий и {info.GetFiles().Length} файлов";
+            }
         }
 
         public static string Help()    // вывод справочной информации
@@ -97,6 +110,20 @@ namespace File_Manager
             File.WriteAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json", json);
             
             Environment.Exit(0);
+        }
+
+        private static string Converter(long size)
+        {
+            if (size < 1024)
+                return $"{size.ToString()} B";
+            else if (1024 < size && size < 1_048_576)
+                return $"{((double)size / 1024).ToString("F")} KB";
+            else if (1_048_576 < size && size < 1_073_741_824)
+                return $"{((double)size / 1_048_576).ToString("F")} MB";
+            else if (size > 1_073_741_824)
+                return $"{((double)size / 1_073_741_824).ToString("F")} GB";
+
+            return default;
         }
     }
 }

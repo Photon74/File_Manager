@@ -64,7 +64,7 @@ namespace File_Manager
                 }
                 catch (Exception e)
                 {
-                    ConsoleWindow.InfoText = e.Message + Environment.NewLine + e.TargetSite;
+                    ConsoleWindow.InfoText = e.Message;
                 }
 
                 ConsoleWindow.Draw();
