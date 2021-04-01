@@ -30,7 +30,7 @@
 <tr ><td align="right" valign="top">enum class &#160;</td>
 <td valign="bottom"> Comands </td>
 </tr>
-<tr><th colspan="2">*Элементы перечислений*</th></tr>
+  <tr></tr>
 <tr><td>Ls</td> <td><p>Вывод дерева файловой системы </p>
 </td></tr>
 <tr><td>Cp</td><td><p>Копирование каталога или файла </p>
