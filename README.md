@@ -1,11 +1,15 @@
 # File_Manager
-
 ## Простейший консольный файловый менеджер
+
+  <img src="https://github.com/Photon74/File_Manager/blob/f6d3fa867922e0983285012f42138c08eacc25d0/File_Manager/imgs/ScreenShot.jpg" 
+  width="250" height="255">
+
+
 
 <table class="memberdecls">
 <tr ><td colspan="2"><h2 >
 Классы</h2></td></tr>
-<tr><td align="right" valign="top">class &#160;</td><td valign="bottom"><b>Actions</b></td></tr>
+<tr><td align="right" valign="top">class &#160;</td><td valign="bottom"><b>Actions</b></td></tr><td></td>
 <tr><td>&#160;</td><td>В классе реализованы все команды, выполняемые программой <br /></td></tr>
 <tr><td colspan="2">&#160;</td></tr>
 <tr><td align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><b>ConsoleWindow</b></td></tr>
