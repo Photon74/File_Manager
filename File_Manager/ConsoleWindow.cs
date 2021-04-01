@@ -4,6 +4,9 @@ using System.Text;
 
 namespace File_Manager
 {
+    /// <summary>
+    /// Построение графического интерфейса и запонение его информацией
+    /// </summary>
     static class ConsoleWindow
     {
         public static string InfoText { get; set; }

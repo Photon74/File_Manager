@@ -4,6 +4,9 @@ using System.Text;
 
 namespace File_Manager
 {
+    /// <summary>
+    /// Список возможных команд
+    /// </summary>
     [Flags]
     enum Comands
     {

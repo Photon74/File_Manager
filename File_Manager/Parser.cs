@@ -5,6 +5,9 @@ using System.Text;
 
 namespace File_Manager
 {
+    /// <summary>
+    /// Введенная пользователем строка делится непосредственно на саму команду и ее параметры
+    /// </summary>
     class Parser
     {
         public static Comands Comand { get; private set; }
@@ -34,6 +37,7 @@ namespace File_Manager
                         $"Команда {words[0]} не поддерживается (используйте 'help')!"),
                 };
             }
+            // TODO Не реализована работа с файлами и директориями с пробелом в имени
             if (words.Length >= 2)
             {
                 words[1] = words[1].ToLower();
@@ -52,6 +56,10 @@ namespace File_Manager
                 if(words[2].Contains(s))
                 {
                     DestPath = words[2];
+                }
+                else
+                {
+                    throw new FileNotFoundException($"Неправильно указан путь назначения!\n   {words[1]} - проверьте написание!");
                 }
             }
         }

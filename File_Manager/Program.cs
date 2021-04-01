@@ -11,6 +11,7 @@ namespace File_Manager
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
             Actions.Start();
+            Actions.
 
             while (true)
             {
@@ -62,6 +63,7 @@ namespace File_Manager
                     else
                         throw new ArgumentOutOfRangeException();
                 }
+                // При возникновении любого исключения, его текстовое сообщение выводится в область информации
                 catch (Exception e)
                 {
                     ConsoleWindow.InfoText = e.Message;

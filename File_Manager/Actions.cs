@@ -5,12 +5,18 @@ using System.Text.Json;
 
 namespace File_Manager
 {
+    /// <summary>
+    /// В классе реализованы все команды, выполняемые программой
+    /// </summary>
     public static class Actions
     {
         public static string CurrentDirectory { get; private set; }
 
-
-        public static void Start()
+        /// <summary>
+        /// Из файла json читается стартовый путь, создается список файлов и поддиректорий,
+        /// формируется информация о текущей директории и, затем, все это выводится на консоль
+        /// </summary>
+        public static void Start() 
         {
             string json = File.ReadAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json");
             CurrentDirectory = JsonSerializer.Deserialize<string>(json);
@@ -18,7 +24,10 @@ namespace File_Manager
             ConsoleWindow.InfoText = DefaultInfo();
             ConsoleWindow.Draw();
         }
-        public static void CreateLists()      // разбиение списка файлов и директорий на страницы и его вывод
+        /// <summary>
+        /// формирование списка файлов и директорий на консоль
+        /// </summary>
+        public static void CreateLists()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -36,8 +45,10 @@ namespace File_Manager
                 
             FileTree.CreateList(CurrentDirectory);
         }
-
-        public static void Delete()    // удаление файла или каталога
+        /// <summary>
+        /// удаление файла или каталога
+        /// </summary>
+        public static void Delete()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -48,8 +59,10 @@ namespace File_Manager
                 Directory.Delete(Parser.SourcePath, true);
             }
         }
-
-        public static void Copy()      // копирование файла или каталога
+        /// <summary>
+        /// копирование файла или каталога
+        /// </summary>
+        public static void Copy()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -69,14 +82,21 @@ namespace File_Manager
                 proc.Start();
             }
         }
-
+        /// <summary>
+        /// Формируется информация о текущей директории
+        /// </summary>
+        /// <returns></returns>
         public static string DefaultInfo()
         {
             return $@"Текущая директория {CurrentDirectory}
    содержит {Directory.GetDirectories(CurrentDirectory).Length} поддиректорий и {Directory.GetFiles(CurrentDirectory).Length} файлов
    (скрытые не показаны)";
         }
-        public static string Info()    // вывод информации о файле или каталоге
+        /// <summary>
+        /// вывод информации о запрошенном файле или каталоге
+        /// </summary>
+        /// <returns></returns>
+        public static string Info()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -93,8 +113,11 @@ namespace File_Manager
    Содержит: {info.GetDirectories().Length} директорий и {info.GetFiles().Length} файлов";
             }
         }
-
-        public static string Help()    // вывод справочной информации
+        /// <summary>
+        /// вывод справочной информации
+        /// </summary>
+        /// <returns>HELP</returns>
+        public static string Help()
         {
             return $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
    Копирование каталога:              cp C:\Source D:\Target\n
@@ -103,8 +126,10 @@ namespace File_Manager
    Удаление файла:                    rm C:\source.txt
    Вывод информации:                  inf C:\source.txt";
         }
-
-        public static void Exit()      // выход из программы
+        /// <summary>
+        /// выход из программы
+        /// </summary>
+        public static void Exit()
         {
             string json = JsonSerializer.Serialize(CurrentDirectory);
             File.WriteAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json", json);
@@ -115,15 +140,13 @@ namespace File_Manager
         private static string Converter(long size)
         {
             if (size < 1024)
-                return $"{size.ToString()} B";
+                return $"{size} B";
             else if (1024 < size && size < 1_048_576)
-                return $"{((double)size / 1024).ToString("F")} KB";
+                return $"{(double)size / 1024:F} KB";
             else if (1_048_576 < size && size < 1_073_741_824)
-                return $"{((double)size / 1_048_576).ToString("F")} MB";
-            else if (size > 1_073_741_824)
-                return $"{((double)size / 1_073_741_824).ToString("F")} GB";
-
-            return default;
+                return $"{(double)size / 1_048_576:F} MB";
+            else 
+                return $"{(double)size / 1_073_741_824:F} GB";
         }
     }
 }

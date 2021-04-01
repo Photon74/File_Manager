@@ -4,6 +4,9 @@ using System.Text;
 
 namespace File_Manager
 {
+    /// <summary>
+    /// Выводит окно с предупреждением при удалении файла или каталога
+    /// </summary>
     class Warning
     {
         public static void Caution()
