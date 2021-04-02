@@ -14,21 +14,22 @@ namespace File_Manager
 
         /// <summary>
         /// Из файла json читается стартовый путь, создается список файлов и поддиректорий,
-        /// формируется информация о текущей директории и, затем, все это выводится на консоль
+        /// формируется информация о текущей директории и выводится на консоль
         /// </summary>
         public static void Start() 
         {
-            string json = File.ReadAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json");
+            string json = File.ReadAllText("options.json");
             CurrentDirectory = JsonSerializer.Deserialize<string>(json);
             FileTree.CreateList(CurrentDirectory);
             ConsoleWindow.InfoText = DefaultInfo();
             ConsoleWindow.Draw();
         }
         /// <summary>
-        /// формирование списка файлов и директорий на консоль
+        /// Формирование списка файлов и директорий на консоль
         /// </summary>
         public static void CreateLists()
         {
+            // TODO не реализован пейджинг
             if (Path.HasExtension(Parser.SourcePath))
             {
                 CurrentDirectory = Path.GetDirectoryName(Parser.SourcePath);
@@ -46,7 +47,7 @@ namespace File_Manager
             FileTree.CreateList(CurrentDirectory);
         }
         /// <summary>
-        /// удаление файла или каталога
+        /// Удаление файла или каталога
         /// </summary>
         public static void Delete()
         {
@@ -60,7 +61,7 @@ namespace File_Manager
             }
         }
         /// <summary>
-        /// копирование файла или каталога
+        /// Копирование файла или каталога
         /// </summary>
         public static void Copy()
         {
@@ -93,7 +94,7 @@ namespace File_Manager
    (скрытые не показаны)";
         }
         /// <summary>
-        /// вывод информации о запрошенном файле или каталоге
+        /// Вывод информации о запрошенном файле или каталоге
         /// </summary>
         /// <returns></returns>
         public static string Info()
@@ -114,12 +115,12 @@ namespace File_Manager
             }
         }
         /// <summary>
-        /// вывод справочной информации
+        /// Вывод справочной информации
         /// </summary>
         /// <returns>HELP</returns>
         public static string Help()
         {
-            return $@"Вывод дерева файловой системы:     ls C:\Source [-p1..n] - для постраничного вывода
+            return $@"Вывод дерева файловой системы:     ls C:\Source
    Копирование каталога:              cp C:\Source D:\Target\n
    Копирование файла:                 cp C:\source.txt D:\target.txt
    Удаление каталога рекурсивно:      rm C:\Source
@@ -127,17 +128,17 @@ namespace File_Manager
    Вывод информации:                  inf C:\source.txt";
         }
         /// <summary>
-        /// выход из программы
+        /// Запись текущей директории в файл и выход из программы
         /// </summary>
         public static void Exit()
         {
             string json = JsonSerializer.Serialize(CurrentDirectory);
-            File.WriteAllText(@"C:\Users\Photo\RiderProjects\File_Manager\File_Manager\options.json", json);
+            File.WriteAllText("options.json", json);
             
             Environment.Exit(0);
         }
 
-        private static string Converter(long size)
+        private static string Converter(long size) //Конвертор размера файлов
         {
             if (size < 1024)
                 return $"{size} B";

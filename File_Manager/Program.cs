@@ -11,7 +11,6 @@ namespace File_Manager
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
             Actions.Start();
-            Actions.
 
             while (true)
             {
