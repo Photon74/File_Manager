@@ -16,18 +16,18 @@ namespace File_Manager
         /// Из файла json читается стартовый путь, создается список файлов и поддиректорий,
         /// формируется информация о текущей директории и выводится на консоль
         /// </summary>
-        public static void Start() 
+        public static void StartApp() 
         {
             string json = File.ReadAllText("options.json");
             CurrentDirectory = JsonSerializer.Deserialize<string>(json);
             FileTree.CreateList(CurrentDirectory);
-            ConsoleWindow.InfoText = DefaultInfo();
+            ConsoleWindow.InfoText = GetDefaultInfo();
             ConsoleWindow.Draw();
         }
         /// <summary>
         /// Формирование списка файлов и директорий на консоль
         /// </summary>
-        public static void CreateLists()
+        public static void CreateListsOfFilesAndDirectories()
         {
             // TODO не реализован пейджинг
             if (Path.HasExtension(Parser.SourcePath))
@@ -49,7 +49,7 @@ namespace File_Manager
         /// <summary>
         /// Удаление файла или каталога
         /// </summary>
-        public static void Delete()
+        public static void FileOrDirectory()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -63,7 +63,7 @@ namespace File_Manager
         /// <summary>
         /// Копирование файла или каталога
         /// </summary>
-        public static void Copy()
+        public static void CopyFileOrDirectory()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
@@ -87,7 +87,7 @@ namespace File_Manager
         /// Формируется информация о текущей директории
         /// </summary>
         /// <returns></returns>
-        public static string DefaultInfo()
+        public static string GetDefaultInfo()
         {
             return $@"Текущая директория {CurrentDirectory}
    содержит {Directory.GetDirectories(CurrentDirectory).Length} поддиректорий и {Directory.GetFiles(CurrentDirectory).Length} файлов
@@ -97,14 +97,14 @@ namespace File_Manager
         /// Вывод информации о запрошенном файле или каталоге
         /// </summary>
         /// <returns></returns>
-        public static string Info()
+        public static string GetAskedInfo()
         {
             if (Path.HasExtension(Parser.SourcePath))
             {
                 FileInfo info = new FileInfo(Parser.SourcePath);
                 return $@"Файл {info.Name}.{info.Extension}
    Время создания: {info.CreationTime}
-   Размер: {Converter(info.Length)} ";
+   Размер: {FileSizeConverter(info.Length)} ";
             }
             else
             {
@@ -118,7 +118,7 @@ namespace File_Manager
         /// Вывод справочной информации
         /// </summary>
         /// <returns>HELP</returns>
-        public static string Help()
+        public static string GetHelp()
         {
             return $@"Вывод дерева файловой системы:     ls C:\Source
    Копирование каталога:              cp C:\Source D:\Target\n
@@ -130,7 +130,7 @@ namespace File_Manager
         /// <summary>
         /// Запись текущей директории в файл и выход из программы
         /// </summary>
-        public static void Exit()
+        public static void ExitApp()
         {
             string json = JsonSerializer.Serialize(CurrentDirectory);
             File.WriteAllText("options.json", json);
@@ -138,7 +138,7 @@ namespace File_Manager
             Environment.Exit(0);
         }
 
-        private static string Converter(long size) //Конвертор размера файлов
+        private static string FileSizeConverter(long size) //Конвертор размера файлов
         {
             if (size < 1024)
                 return $"{size} B";

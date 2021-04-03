@@ -10,7 +10,7 @@ namespace File_Manager
             Console.WindowHeight = 45;
             Console.SetBufferSize(Console.WindowWidth, Console.WindowHeight);
 
-            Actions.Start();
+            Actions.StartApp();
 
             while (true)
             {
@@ -20,15 +20,15 @@ namespace File_Manager
 
                     if (Parser.Comand == Comands.Ls)
                     {
-                        Actions.CreateLists();
-                        ConsoleWindow.InfoText = Actions.DefaultInfo();
+                        Actions.CreateListsOfFilesAndDirectories();
+                        ConsoleWindow.InfoText = Actions.GetDefaultInfo();
                     }
 
                     else if (Parser.Comand == Comands.Cp)
                     {
-                        Actions.Copy();
-                        Actions.CreateLists();
-                        ConsoleWindow.InfoText = Actions.DefaultInfo();
+                        Actions.CopyFileOrDirectory();
+                        Actions.CreateListsOfFilesAndDirectories();
+                        ConsoleWindow.InfoText = Actions.GetDefaultInfo();
                     }
 
                     else if (Parser.Comand == Comands.Rm)
@@ -38,25 +38,25 @@ namespace File_Manager
                         ConsoleKeyInfo key = Console.ReadKey();
                         if (key.Key == ConsoleKey.Enter)
                         {
-                            Actions.Delete();
+                            Actions.FileOrDirectory();
                         }
-                        Actions.CreateLists();
-                        ConsoleWindow.InfoText = Actions.DefaultInfo();
+                        Actions.CreateListsOfFilesAndDirectories();
+                        ConsoleWindow.InfoText = Actions.GetDefaultInfo();
                     }
 
                     else if (Parser.Comand == Comands.Inf)
                     {
-                        ConsoleWindow.InfoText = Actions.Info();
+                        ConsoleWindow.InfoText = Actions.GetAskedInfo();
                     }
 
                     else if (Parser.Comand == Comands.Help)
                     {
-                        ConsoleWindow.InfoText = Actions.Help();
+                        ConsoleWindow.InfoText = Actions.GetHelp();
                     }
 
                     else if (Parser.Comand == Comands.Exit)
                     {
-                        Actions.Exit();
+                        Actions.ExitApp();
                     }
 
                     else
