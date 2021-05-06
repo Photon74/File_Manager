@@ -18,8 +18,15 @@ namespace File_Manager
         /// </summary>
         public static void StartApp() 
         {
-            string json = File.ReadAllText("options.json");
-            CurrentDirectory = JsonSerializer.Deserialize<string>(json);
+            if (File.Exists("options.json"))
+            {
+                string json = File.ReadAllText("options.json");
+                CurrentDirectory = JsonSerializer.Deserialize<string>(json);
+            }
+            else
+            {
+                CurrentDirectory = "c:\\";
+            }
             FileTree.CreateList(CurrentDirectory);
             ConsoleWindow.InfoText = GetDefaultInfo();
             ConsoleWindow.Draw();
